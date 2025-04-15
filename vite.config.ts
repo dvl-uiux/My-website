@@ -6,8 +6,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
+    host: true,
   },
-  base: '/My-portfolio/',
+  base: process.env.NODE_ENV === 'production' ? '/my-portfolio/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -17,6 +18,9 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      },
       output: {
         manualChunks: undefined,
         assetFileNames: 'assets/[name]-[hash][extname]',
