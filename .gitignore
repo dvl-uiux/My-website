@@ -24,7 +24,17 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment variables
+# Vite
+.vite
+*.tsbuildinfo
+
+# Temporary files
+*.zip
+temp-*
+deploy/
+temp-deploy/
+
+# Environment files
 .env
 .env.*
 !.env.example 
