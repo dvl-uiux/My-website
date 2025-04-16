@@ -1,237 +1,236 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import profileImage from '../images/profile.jpg'; // Adjust the path as necessary
 
 const AboutSection = styled(motion.section)`
   min-height: 100vh;
-  padding: 100px 0;
-  background: #0a192f;
-  position: relative;
+  padding: 4rem 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  margin: 2rem 0;
 `;
 
 const AboutContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
+`;
 
-  @media (max-width: 968px) {
+const AboutContent = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 `;
 
-const AboutContent = styled.div`
-  @media (max-width: 968px) {
-    order: 2;
+const ProfileImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: -20px;
+    bottom: -20px;
+    border: 2px solid #1a2a6c;
+    border-radius: 20px;
+    z-index: -1;
   }
 `;
 
-const SectionTitle = styled(motion.h2)`
-  font-size: clamp(2rem, 5vw, 2.5rem);
-  color: #64ffda;
-  margin-bottom: 2rem;
+const ProfileImage = styled(motion.img)`
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translate(-5px, -5px);
+  }
+`;
+
+const AboutTitle = styled.h2`
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #2d3436;
   position: relative;
-  
+
   &::after {
     content: '';
     position: absolute;
     bottom: -10px;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background: #64ffda;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, #1a2a6c, #b21f1f, #fdbb2d);
+  }
+`;
+
+const AboutText = styled.div`
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #636e72;
+  margin-bottom: 2rem;
+
+  p {
+    margin-bottom: 1.5rem;
+  }
+`;
+
+const Motto = styled.p`
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #2d3436;
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  border-left: 4px solid #1a2a6c;
+  background: linear-gradient(90deg, rgba(26, 42, 108, 0.1), transparent);
+`;
+
+const TechSection = styled.div`
+  margin-top: 2rem;
+`;
+
+const TechCategory = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const CategoryTitle = styled.h3`
+  font-size: 1.3rem;
+  color: #2d3436;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(to bottom, #1a2a6c, #b21f1f);
     border-radius: 2px;
   }
 `;
 
-const AboutText = styled(motion.div)`
-  color: #8892b0;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 2rem;
-
-  p {
-    margin-bottom: 1rem;
-  }
-
-  strong {
-    color: #64ffda;
-  }
-`;
-
-const SkillsContainer = styled(motion.div)`
-  margin-top: 3rem;
-`;
-
-const SkillsTitle = styled.h3`
-  font-size: 1.5rem;
-  color: #ccd6f6;
-  margin-bottom: 1.5rem;
-`;
-
 const SkillsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
-  margin-bottom: 2rem;
 `;
 
 const SkillCard = styled(motion.div)`
-  background: #112240;
+  background: white;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: 1px solid #233554;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 
   &:hover {
     transform: translateY(-5px);
-    border-color: #64ffda;
-    box-shadow: 0 4px 20px rgba(100, 255, 218, 0.1);
-  }
-
-  i {
-    font-size: 1.5rem;
-    color: #64ffda;
-    margin-bottom: 0.5rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
   }
 `;
 
-const SkillName = styled.span`
-  color: #8892b0;
-  font-size: 0.9rem;
-  display: block;
-`;
+const About = () => {
+  const technologies = {
+    frontend: [
+      'React', 'Next.js', 'TypeScript',
+      'JavaScript', 'HTML5', 'CSS3',
+      'Tailwind CSS', 'Styled Components'
+    ],
+    design: [
+      'Figma', 'Adobe XD', 'UI Design',
+      'UX Design', 'Wireframing', 'Prototyping'
+    ],
+    tools: [
+      'Git', 'VS Code', 'Framer Motion',
+      'Redux', 'REST APIs', 'GraphQL'
+    ]
+  };
 
-const skillsData = {
-  frontend: [
-    { name: "React", icon: "fab fa-react" },
-    { name: "JavaScript", icon: "fab fa-js" },
-    { name: "HTML5", icon: "fab fa-html5" },
-    { name: "CSS3", icon: "fab fa-css3-alt" },
-    { name: "Sass", icon: "fab fa-sass" },
-    { name: "TypeScript", icon: "fas fa-code" },
-  ],
-  tools: [
-    { name: "Git", icon: "fab fa-git-alt" },
-    { name: "VS Code", icon: "fas fa-code" },
-    { name: "Figma", icon: "fab fa-figma" },
-    { name: "npm", icon: "fab fa-npm" },
-    { name: "Terminal", icon: "fas fa-terminal" },
-    { name: "GitHub", icon: "fab fa-github" },
-  ],
-  design: [
-    { name: "UI Design", icon: "fas fa-pencil-ruler" },
-    { name: "UX Design", icon: "fas fa-user" },
-    { name: "Wireframing", icon: "fas fa-sitemap" },
-    { name: "Prototyping", icon: "fas fa-project-diagram" },
-    { name: "Responsive", icon: "fas fa-mobile-alt" },
-    { name: "Accessibility", icon: "fas fa-universal-access" },
-  ],
-};
-
-const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0
-  }
-};
-
-function About() {
   return (
-    <AboutSection>
+    <AboutSection
+      id="about"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+    >
       <AboutContainer>
+        <AboutTitle>About Me</AboutTitle>
         <AboutContent>
-          <SectionTitle
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            About Me
-          </SectionTitle>
-          <AboutText
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <p>
-              Hello! I'm <strong>Kelvin</strong>, a passionate frontend developer and UI/UX designer with a keen eye for creating beautiful, functional, and user-centered digital experiences.
-            </p>
-            <p>
-              My approach combines clean code with intuitive design, ensuring that every project not only looks great but also delivers exceptional user experience. I believe in <strong>"mind in motion, ideas in action"</strong> – turning creative concepts into practical solutions.
-            </p>
-          </AboutText>
-
-          <SkillsContainer
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <SkillsTitle>Frontend Development</SkillsTitle>
-            <SkillsGrid>
-              {skillsData.frontend.map((skill) => (
-                <SkillCard
-                  key={skill.name}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <i className={skill.icon}></i>
-                  <SkillName>{skill.name}</SkillName>
-                </SkillCard>
+          <ProfileImageContainer>
+            <ProfileImage
+              src={profileImage}
+              alt="Kelvin Sanni-Davies"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            />
+          </ProfileImageContainer>
+          <div>
+            <AboutText>
+              <p>
+                Hi, I'm Kelvin Sanni-Davies, a passionate Frontend Developer and UI/UX Designer based in Lagos, Nigeria. 
+                With a keen eye for detail and a love for creating seamless user experiences, I transform complex problems 
+                into elegant, user-friendly solutions.
+              </p>
+              <p>
+                My expertise lies in building modern web applications using cutting-edge technologies. I specialize in 
+                React and Next.js development, creating responsive and performant applications that deliver exceptional 
+                user experiences. My background in UI/UX design allows me to bridge the gap between design and 
+                development, ensuring that every project is both visually stunning and functionally robust.
+              </p>
+              <Motto>"Mind in motion, ideas in action"</Motto>
+            </AboutText>
+            <TechSection>
+              {Object.entries(technologies).map(([category, skills], categoryIndex) => (
+                <TechCategory key={category}>
+                  <CategoryTitle>
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </CategoryTitle>
+                  <SkillsGrid>
+                    {skills.map((skill, index) => (
+                      <SkillCard
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: (categoryIndex * 8 + index) * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        {skill}
+                      </SkillCard>
+                    ))}
+                  </SkillsGrid>
+                </TechCategory>
               ))}
-            </SkillsGrid>
-
-            <SkillsTitle>Design</SkillsTitle>
-            <SkillsGrid>
-              {skillsData.design.map((skill) => (
-                <SkillCard
-                  key={skill.name}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <i className={skill.icon}></i>
-                  <SkillName>{skill.name}</SkillName>
-                </SkillCard>
-              ))}
-            </SkillsGrid>
-
-            <SkillsTitle>Tools & Technologies</SkillsTitle>
-            <SkillsGrid>
-              {skillsData.tools.map((skill) => (
-                <SkillCard
-                  key={skill.name}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <i className={skill.icon}></i>
-                  <SkillName>{skill.name}</SkillName>
-                </SkillCard>
-              ))}
-            </SkillsGrid>
-          </SkillsContainer>
+            </TechSection>
+          </div>
         </AboutContent>
       </AboutContainer>
     </AboutSection>
   );
-}
+};
 
 export default About; 
