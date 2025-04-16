@@ -1,0 +1,51 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react", "react-hooks"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "no-unused-vars": "warn",
+    "react/jsx-uses-react": "off",
+    "react/jsx-uses-vars": "error",
+    "react/no-unescaped-entities": "off",
+    "no-undef": "off",
+    "no-prototype-builtins": "off",
+    "no-empty": "warn",
+    "no-cond-assign": "warn",
+    "no-fallthrough": "warn",
+    "no-constant-condition": "warn",
+    "no-useless-escape": "warn",
+    "no-control-regex": "warn",
+    "no-func-assign": "warn",
+    "no-misleading-character-class": "warn",
+    "getter-return": "warn",
+    "valid-typeof": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/display-name": "off",
+    "no-redeclare": "warn",
+    "no-sparse-arrays": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "ignorePatterns": ["dist/**/*", "node_modules/**/*", "assets/**/*"]
+} 

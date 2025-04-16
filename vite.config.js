@@ -1,17 +1,29 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import eslint from 'vite-plugin-eslint';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    eslint({
+      include: ['src/**/*.js', 'src/**/*.jsx'],
+      cache: false,
+    }),
+  ],
   server: {
     port: 3000,
     host: true,
+    open: true,
   },
   base: '/',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': resolve(__dirname, './src'),
     },
   },
   optimizeDeps: {
@@ -24,7 +36,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'index.html'),
+        main: resolve(__dirname, 'index.html'),
       },
       output: {
         manualChunks: {
