@@ -131,7 +131,7 @@ const About = () => {
         <AboutContent>
           <ProfileImageContainer>
             <ProfileImage
-              src="/profile.jpg"
+              src="https://raw.githubusercontent.com/dvl-uiux/My-website/main/src/assets/profile.jpg"
               alt="Kelvin Sanni-Davies"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
