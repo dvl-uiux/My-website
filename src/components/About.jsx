@@ -16,6 +16,49 @@ const AboutContainer = styled.div`
   padding: 0 2rem;
 `;
 
+const AboutContent = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+`;
+
+const ProfileImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: -20px;
+    bottom: -20px;
+    border: 2px solid #1a2a6c;
+    border-radius: 20px;
+    z-index: -1;
+  }
+`;
+
+const ProfileImage = styled(motion.img)`
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translate(-5px, -5px);
+  }
+`;
+
 const AboutTitle = styled.h2`
   font-size: 2.5rem;
   text-align: center;
@@ -35,127 +78,46 @@ const AboutTitle = styled.h2`
   }
 `;
 
-const AboutContent = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
 const AboutText = styled.div`
-  p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #2d3436;
-    margin-bottom: 1.5rem;
-  }
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #636e72;
+  margin-bottom: 2rem;
 `;
 
-const Motto = styled(motion.p)`
-  font-size: 1.2rem;
+const Motto = styled.p`
+  font-size: 1.5rem;
   font-style: italic;
-  color: #1a2a6c;
-  text-align: right;
-  margin-top: 2rem;
-  font-weight: 600;
-  position: relative;
-  padding-right: 1rem;
-
-  &::before {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 30px;
-    height: 2px;
-    background: linear-gradient(90deg, #1a2a6c, #b21f1f, #fdbb2d);
-    transform: translateY(-50%);
-  }
+  color: #2d3436;
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  border-left: 4px solid #1a2a6c;
+  background: linear-gradient(90deg, rgba(26, 42, 108, 0.1), transparent);
 `;
 
 const SkillsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
 `;
 
-const SkillCard = styled.div`
+const SkillCard = styled(motion.div)`
   background: white;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #1a2a6c, #b21f1f, #fdbb2d);
-  }
+  text-align: center;
+  transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-  }
-
-  h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: #2d3436;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-      color: #636e72;
-
-      &::before {
-        content: '•';
-        color: #1a2a6c;
-        font-weight: bold;
-      }
-    }
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 `;
 
 const About = () => {
-  const skills = {
-    frontend: [
-      'React.js', 'Next.js', 'TypeScript', 'JavaScript (ES6+)',
-      'HTML5 & CSS3', 'Tailwind CSS', 'Styled Components', 'Framer Motion',
-      'Redux & Context API', 'RESTful APIs', 'GraphQL', 'Webpack & Vite'
-    ],
-    uiux: [
-      'Figma', 'Adobe XD', 'User Research', 'Wireframing',
-      'Prototyping', 'Responsive Design', 'Accessibility (WCAG)',
-      'UI/UX Principles', 'Design Systems', 'User Testing',
-      'Motion Design', 'Micro-interactions'
-    ],
-    tools: [
-      'Git & GitHub', 'VS Code', 'Chrome DevTools', 'Jest & React Testing Library',
-      'Postman', 'npm & yarn', 'Docker', 'CI/CD', 'Agile/Scrum',
-      'Jira & Trello', 'Figma Plugins', 'Adobe Creative Suite'
-    ]
-  };
-
   return (
     <AboutSection
       id="about"
@@ -167,58 +129,42 @@ const About = () => {
       <AboutContainer>
         <AboutTitle>About Me</AboutTitle>
         <AboutContent>
-          <AboutText>
-            <p>
-              Hi, I'm Kelvin Adegbemisola Sanni, a passionate Frontend Developer and UI/UX Designer 
-              with a keen eye for creating elegant, efficient, and user-friendly web applications. 
-              I specialize in building modern web solutions that combine beautiful design with 
-              robust functionality.
-            </p>
-            <p>
-              With expertise in React, Next.js, and modern JavaScript, I craft responsive and 
-              performant web applications. My UI/UX design background allows me to create 
-              intuitive user interfaces that not only look great but also provide exceptional 
-              user experiences.
-            </p>
-            <p>
-              I'm constantly exploring new technologies and best practices to stay at the 
-              forefront of web development. My goal is to create digital experiences that 
-              are both visually stunning and functionally impeccable.
-            </p>
-            <Motto
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              "Mind in motion, ideas in action"
-            </Motto>
-          </AboutText>
-          <SkillsGrid>
-            <SkillCard>
-              <h3>Frontend Development</h3>
-              <ul>
-                {skills.frontend.map((skill, index) => (
-                  <li key={index}>{skill}</li>
-                ))}
-              </ul>
-            </SkillCard>
-            <SkillCard>
-              <h3>UI/UX Design</h3>
-              <ul>
-                {skills.uiux.map((skill, index) => (
-                  <li key={index}>{skill}</li>
-                ))}
-              </ul>
-            </SkillCard>
-            <SkillCard>
-              <h3>Tools & Technologies</h3>
-              <ul>
-                {skills.tools.map((skill, index) => (
-                  <li key={index}>{skill}</li>
-                ))}
-              </ul>
-            </SkillCard>
-          </SkillsGrid>
+          <ProfileImageContainer>
+            <ProfileImage
+              src="/profile.jpg"
+              alt="Kelvin Sanni-Davies"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            />
+          </ProfileImageContainer>
+          <div>
+            <AboutText>
+              <p>
+                Hi, I'm Kelvin Sanni-Davies, a passionate Frontend Developer and UI/UX Designer based in Lagos, Nigeria. 
+                I specialize in creating beautiful, functional, and user-centered digital experiences.
+              </p>
+              <Motto>"Mind in motion, ideas in action"</Motto>
+            </AboutText>
+            <SkillsGrid>
+              {[
+                'React', 'Next.js', 'TypeScript',
+                'Tailwind CSS', 'Styled Components',
+                'Framer Motion', 'UI/UX Design',
+                'Figma', 'Responsive Design'
+              ].map((skill, index) => (
+                <SkillCard
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  {skill}
+                </SkillCard>
+              ))}
+            </SkillsGrid>
+          </div>
         </AboutContent>
       </AboutContainer>
     </AboutSection>
