@@ -20,7 +20,7 @@ export default defineConfig({
     host: true,
     open: true,
   },
-  base: '/',
+  base: '/My-website/',
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),

@@ -8,8 +8,10 @@ import Contact from './components/Contact';
 
 const AppContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+  background: linear-gradient(135deg, #0a192f 0%, #112240 50%, #233554 100%);
   color: #ffffff;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 `;
 
 const HeroSection = styled(motion.section)`
@@ -17,18 +19,25 @@ const HeroSection = styled(motion.section)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0 10%;
   position: relative;
+  
+  @media (max-width: 768px) {
+    padding: 0 5%;
+    align-items: center;
+    text-align: center;
+  }
 `;
 
 const NameTitle = styled(motion.h1)`
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(to right, #ffffff, #e0e0e0);
+  color: #64ffda;
+  background: linear-gradient(to right, #64ffda, #48bfe3);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -40,8 +49,15 @@ const Subtitle = styled(motion.p)`
   font-weight: 300;
   max-width: 800px;
   line-height: 1.6;
-  margin: 0 auto 3rem;
-  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 2rem 0;
+  color: #8892b0;
+`;
+
+const TagLine = styled(motion.p)`
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 400;
+  color: #64ffda;
+  margin-bottom: 2rem;
 `;
 
 const ScrollExplore = styled(motion.div)`
@@ -62,36 +78,54 @@ const ScrollExplore = styled(motion.div)`
 `;
 
 const ScrollText = styled.span`
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #64ffda;
 `;
 
 const ScrollIcon = styled(motion.div)`
-  width: 30px;
-  height: 50px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 15px;
+  width: 26px;
+  height: 42px;
+  border: 2px solid #64ffda;
+  border-radius: 13px;
   position: relative;
 
   &::before {
     content: '';
     position: absolute;
-    top: 8px;
+    top: 6px;
     left: 50%;
     transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.8);
+    width: 4px;
+    height: 4px;
+    background: #64ffda;
     border-radius: 50%;
     animation: scroll 2s infinite;
   }
 
   @keyframes scroll {
     0% { transform: translate(-50%, 0); opacity: 1; }
-    100% { transform: translate(-50%, 20px); opacity: 0; }
+    100% { transform: translate(-50%, 15px); opacity: 0; }
+  }
+`;
+
+const CTAButton = styled(motion.a)`
+  padding: 1rem 2rem;
+  background: transparent;
+  border: 2px solid #64ffda;
+  color: #64ffda;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+
+  &:hover {
+    background: rgba(100, 255, 218, 0.1);
+    transform: translateY(-2px);
   }
 `;
 
@@ -99,7 +133,7 @@ function App() {
   const aboutRef = useRef(null);
 
   const scrollToAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+    aboutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -109,11 +143,19 @@ function App() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
+        id="hero"
       >
+        <TagLine
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          Hi, my name is
+        </TagLine>
         <NameTitle
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
         >
           Kelvin Sanni-Davies
         </NameTitle>
@@ -122,8 +164,18 @@ function App() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          Frontend Developer & UI/UX Designer
+          I craft exceptional digital experiences through code and design.
         </Subtitle>
+        <CTAButton
+          href="#projects"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          View My Work
+        </CTAButton>
         <ScrollExplore
           onClick={scrollToAbout}
           whileHover={{ scale: 1.1 }}
@@ -142,7 +194,7 @@ function App() {
           />
         </ScrollExplore>
       </HeroSection>
-      <div ref={aboutRef}>
+      <div ref={aboutRef} id="about">
         <About />
       </div>
       <Projects />
