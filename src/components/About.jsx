@@ -83,6 +83,10 @@ const AboutText = styled.div`
   line-height: 1.8;
   color: #636e72;
   margin-bottom: 2rem;
+
+  p {
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const Motto = styled.p`
@@ -96,11 +100,36 @@ const Motto = styled.p`
   background: linear-gradient(90deg, rgba(26, 42, 108, 0.1), transparent);
 `;
 
+const TechSection = styled.div`
+  margin-top: 2rem;
+`;
+
+const TechCategory = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const CategoryTitle = styled.h3`
+  font-size: 1.3rem;
+  color: #2d3436;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(to bottom, #1a2a6c, #b21f1f);
+    border-radius: 2px;
+  }
+`;
+
 const SkillsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
-  margin-top: 2rem;
 `;
 
 const SkillCard = styled(motion.div)`
@@ -110,14 +139,35 @@ const SkillCard = styled(motion.div)`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
   }
 `;
 
 const About = () => {
+  const technologies = {
+    frontend: [
+      'React', 'Next.js', 'TypeScript',
+      'JavaScript', 'HTML5', 'CSS3',
+      'Tailwind CSS', 'Styled Components'
+    ],
+    design: [
+      'Figma', 'Adobe XD', 'UI Design',
+      'UX Design', 'Wireframing', 'Prototyping'
+    ],
+    tools: [
+      'Git', 'VS Code', 'Framer Motion',
+      'Redux', 'REST APIs', 'GraphQL'
+    ]
+  };
+
   return (
     <AboutSection
       id="about"
@@ -131,7 +181,7 @@ const About = () => {
         <AboutContent>
           <ProfileImageContainer>
             <ProfileImage
-              src="https://raw.githubusercontent.com/dvl-uiux/My-website/main/src/assets/profile.jpg"
+              src="/profile.jpg"
               alt="Kelvin Sanni-Davies"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -142,28 +192,39 @@ const About = () => {
             <AboutText>
               <p>
                 Hi, I'm Kelvin Sanni-Davies, a passionate Frontend Developer and UI/UX Designer based in Lagos, Nigeria. 
-                I specialize in creating beautiful, functional, and user-centered digital experiences.
+                With a keen eye for detail and a love for creating seamless user experiences, I transform complex problems 
+                into elegant, user-friendly solutions.
+              </p>
+              <p>
+                My expertise lies in building modern web applications using cutting-edge technologies. I specialize in 
+                React and Next.js development, creating responsive and performant applications that deliver exceptional 
+                user experiences. My background in UI/UX design allows me to bridge the gap between design and 
+                development, ensuring that every project is both visually stunning and functionally robust.
               </p>
               <Motto>"Mind in motion, ideas in action"</Motto>
             </AboutText>
-            <SkillsGrid>
-              {[
-                'React', 'Next.js', 'TypeScript',
-                'Tailwind CSS', 'Styled Components',
-                'Framer Motion', 'UI/UX Design',
-                'Figma', 'Responsive Design'
-              ].map((skill, index) => (
-                <SkillCard
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  {skill}
-                </SkillCard>
+            <TechSection>
+              {Object.entries(technologies).map(([category, skills], categoryIndex) => (
+                <TechCategory key={category}>
+                  <CategoryTitle>
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </CategoryTitle>
+                  <SkillsGrid>
+                    {skills.map((skill, index) => (
+                      <SkillCard
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: (categoryIndex * 8 + index) * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        {skill}
+                      </SkillCard>
+                    ))}
+                  </SkillsGrid>
+                </TechCategory>
               ))}
-            </SkillsGrid>
+            </TechSection>
           </div>
         </AboutContent>
       </AboutContainer>
