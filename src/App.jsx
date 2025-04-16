@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Navigation from './components/Navigation';
@@ -7,96 +7,44 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 
 const AppContainer = styled.div`
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
-  position: relative;
-  z-index: 1;
-  overflow-x: hidden;
-`;
-
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
-  overflow: hidden;
-  will-change: transform;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.2;
-    will-change: transform;
-  }
-`;
-
-const Section = styled(motion.section)`
   min-height: 100vh;
-  padding: 4rem 0;
+  background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+  color: #ffffff;
+`;
+
+const HeroSection = styled(motion.section)`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   text-align: center;
+  padding: 2rem;
   position: relative;
-  z-index: 1;
-  will-change: transform;
 `;
 
-const Title = styled(motion.h1)`
-  font-size: 4.5rem;
-  margin-bottom: 1.5rem;
-  color: #ffffff;
-  font-weight: 800;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  line-height: 1.2;
-  will-change: transform;
-
-  @media (max-width: 768px) {
-    font-size: 3rem;
-  }
-`;
-
-const Subtitle = styled(motion.div)`
-  text-align: center;
-  margin: 0 auto;
-  max-width: 800px;
-`;
-
-const Role = styled(motion.p)`
-  font-size: 2rem;
-  color: #ffffff;
+const NameTitle = styled(motion.h1)`
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
   margin-bottom: 1rem;
-  font-weight: 600;
-  opacity: 0.9;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
+  background: linear-gradient(to right, #ffffff, #e0e0e0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-const Description = styled(motion.p)`
-  font-size: 1.2rem;
-  color: #ffffff;
+const Subtitle = styled(motion.p)`
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 300;
+  max-width: 800px;
   line-height: 1.6;
-  margin: 0 auto;
-  max-width: 600px;
-  opacity: 0.8;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
+  margin: 0 auto 3rem;
+  color: rgba(255, 255, 255, 0.9);
 `;
 
-const ScrollIndicator = styled(motion.div)`
+const ScrollExplore = styled(motion.div)`
   position: absolute;
   bottom: 2rem;
   left: 50%;
@@ -104,80 +52,103 @@ const ScrollIndicator = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   cursor: pointer;
-  will-change: transform;
+  transition: all 0.3s ease;
 
-  span {
-    font-size: 0.9rem;
-    color: #ffffff;
-    font-weight: 500;
-    opacity: 0.8;
+  &:hover {
+    transform: translate(-50%, -5px);
   }
 `;
 
-const App = () => {
-  const scrollToSection = useCallback((sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
+const ScrollText = styled.span`
+  font-size: 1rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.8);
+`;
+
+const ScrollIcon = styled(motion.div)`
+  width: 30px;
+  height: 50px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: scroll 2s infinite;
+  }
+
+  @keyframes scroll {
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    100% { transform: translate(-50%, 20px); opacity: 0; }
+  }
+`;
+
+function App() {
+  const aboutRef = useRef(null);
+
+  const scrollToAbout = () => {
+    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <>
-      <Background />
+    <AppContainer>
       <Navigation />
-      <AppContainer>
-        <Section id="home">
-          <Title
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Kelvin Adegbemisola Sanni
-          </Title>
-          <Subtitle>
-            <Role
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Frontend Developer & UI/UX Designer
-            </Role>
-            <Description
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Crafting beautiful, intuitive, and responsive web experiences with modern technologies.
-              Specializing in React, Next.js, and user-centered design principles to create
-              impactful digital solutions.
-            </Description>
-          </Subtitle>
-          <ScrollIndicator
-            onClick={() => scrollToSection('about')}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            whileHover={{ y: 5 }}
-          >
-            <span>Scroll to explore</span>
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              ↓
-            </motion.div>
-          </ScrollIndicator>
-        </Section>
-
+      <HeroSection
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <NameTitle
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          Kelvin Sanni-Davies
+        </NameTitle>
+        <Subtitle
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+        >
+          Frontend Developer & UI/UX Designer
+        </Subtitle>
+        <ScrollExplore
+          onClick={scrollToAbout}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <ScrollText>Scroll to explore</ScrollText>
+          <ScrollIcon
+            animate={{
+              y: [0, 10, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </ScrollExplore>
+      </HeroSection>
+      <div ref={aboutRef}>
         <About />
-        <Projects />
-        <Contact />
-      </AppContainer>
-    </>
+      </div>
+      <Projects />
+      <Contact />
+    </AppContainer>
   );
-};
+}
 
 export default App; 
