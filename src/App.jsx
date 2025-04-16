@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Navigation from './components/Navigation';
@@ -7,60 +7,82 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 
 const AppContainer = styled.div`
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a192f 0%, #112240 50%, #233554 100%);
-  color: #ffffff;
-  scroll-behavior: smooth;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
   overflow-x: hidden;
 `;
 
-const HeroSection = styled(motion.section)`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
-  padding: 0 10%;
-  position: relative;
-  
-  @media (max-width: 768px) {
-    padding: 0 5%;
-    align-items: center;
-    text-align: center;
+const Background = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  overflow: hidden;
+  will-change: transform;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+    will-change: transform;
   }
 `;
 
-const NameTitle = styled(motion.h1)`
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #64ffda;
-  background: linear-gradient(to right, #64ffda, #48bfe3);
+const Section = styled(motion.section)`
+  min-height: 100vh;
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+`;
+
+const Title = styled(motion.h1)`
+  font-size: 4.5rem;
+  margin-bottom: 1.5rem;
+  color: #2d3436;
+  font-weight: 800;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(45deg, #2d3436, #636e72);
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
+  will-change: transform;
+
+  @media (max-width: 768px) {
+    font-size: 3rem;
+  }
 `;
 
 const Subtitle = styled(motion.p)`
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 300;
+  font-size: 2rem;
+  color: #636e72;
   max-width: 800px;
+  margin: 0 auto;
   line-height: 1.6;
-  margin: 0 0 2rem 0;
-  color: #8892b0;
+  font-weight: 500;
+  will-change: transform;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
-const TagLine = styled(motion.p)`
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  font-weight: 400;
-  color: #64ffda;
-  margin-bottom: 2rem;
-`;
-
-const ScrollExplore = styled(motion.div)`
+const ScrollIndicator = styled(motion.div)`
   position: absolute;
   bottom: 2rem;
   left: 50%;
@@ -68,139 +90,68 @@ const ScrollExplore = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  will-change: transform;
 
-  &:hover {
-    transform: translate(-50%, -5px);
+  span {
+    font-size: 0.9rem;
+    color: #636e72;
+    font-weight: 500;
   }
 `;
 
-const ScrollText = styled.span`
-  font-size: 0.9rem;
-  font-weight: 300;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #64ffda;
-`;
-
-const ScrollIcon = styled(motion.div)`
-  width: 26px;
-  height: 42px;
-  border: 2px solid #64ffda;
-  border-radius: 13px;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: #64ffda;
-    border-radius: 50%;
-    animation: scroll 2s infinite;
-  }
-
-  @keyframes scroll {
-    0% { transform: translate(-50%, 0); opacity: 1; }
-    100% { transform: translate(-50%, 15px); opacity: 0; }
-  }
-`;
-
-const CTAButton = styled(motion.a)`
-  padding: 1rem 2rem;
-  background: transparent;
-  border: 2px solid #64ffda;
-  color: #64ffda;
-  font-size: 1rem;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
-
-  &:hover {
-    background: rgba(100, 255, 218, 0.1);
-    transform: translateY(-2px);
-  }
-`;
-
-function App() {
-  const aboutRef = useRef(null);
-
-  const scrollToAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+const App = () => {
+  const scrollToSection = useCallback((sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
 
   return (
-    <AppContainer>
+    <>
+      <Background />
       <Navigation />
-      <HeroSection
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        id="hero"
-      >
-        <TagLine
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-        >
-          Hi, my name is
-        </TagLine>
-        <NameTitle
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-        >
-          Kelvin Sanni-Davies
-        </NameTitle>
-        <Subtitle
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-        >
-          I craft exceptional digital experiences through code and design.
-        </Subtitle>
-        <CTAButton
-          href="#projects"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          View My Work
-        </CTAButton>
-        <ScrollExplore
-          onClick={scrollToAbout}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <ScrollText>Scroll to explore</ScrollText>
-          <ScrollIcon
-            animate={{
-              y: [0, 10, 0],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </ScrollExplore>
-      </HeroSection>
-      <div ref={aboutRef} id="about">
+      <AppContainer>
+        <Section id="home">
+          <Title
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Kelvin Sanni
+          </Title>
+          <Subtitle
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Full Stack Developer & UI/UX Designer
+          </Subtitle>
+          <ScrollIndicator
+            onClick={() => scrollToSection('about')}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            whileHover={{ y: 5 }}
+          >
+            <span>Scroll to explore</span>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              ↓
+            </motion.div>
+          </ScrollIndicator>
+        </Section>
+
         <About />
-      </div>
-      <Projects />
-      <Contact />
-    </AppContainer>
+        <Projects />
+        <Contact />
+      </AppContainer>
+    </>
   );
-}
+};
 
 export default App; 
