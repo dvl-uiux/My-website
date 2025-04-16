@@ -188,7 +188,7 @@ function About() {
           >
             <SkillsTitle>Frontend Development</SkillsTitle>
             <SkillsGrid>
-              {skillsData.frontend.map((skill, index) => (
+              {skillsData.frontend.map((skill) => (
                 <SkillCard
                   key={skill.name}
                   variants={itemVariants}
@@ -202,7 +202,7 @@ function About() {
 
             <SkillsTitle>Design</SkillsTitle>
             <SkillsGrid>
-              {skillsData.design.map((skill, index) => (
+              {skillsData.design.map((skill) => (
                 <SkillCard
                   key={skill.name}
                   variants={itemVariants}
@@ -216,7 +216,7 @@ function About() {
 
             <SkillsTitle>Tools & Technologies</SkillsTitle>
             <SkillsGrid>
-              {skillsData.tools.map((skill, index) => (
+              {skillsData.tools.map((skill) => (
                 <SkillCard
                   key={skill.name}
                   variants={itemVariants}
